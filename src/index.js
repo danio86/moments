@@ -5,12 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter as Router } from "react-router-dom";
 /* der router lässt inhalte je nach url anzeigen (wie if path) */
+import { CurrentUserProvider } from "./contexts/CurrentUserContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <App />
-      {/* die App muss in den Router */}
+      <CurrentUserProvider>
+        <App />
+      </CurrentUserProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")

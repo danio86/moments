@@ -10,3 +10,10 @@ auch mit Text in ihren Anfragen umgehen wird. */
 axios.defaults.withCredentials = true
 /* To avoid any CORS errors when sending cookies, 
 we also need to set withCredentials to true */
+
+export const axiosReq = axios.create();
+export const axiosRes = axios.create();
+/* diese beiden ermöglichen, dass der user 24h eingelogged bleibt, wenn er
+sich nicht auslogged */
+/* das muss igegndwo plaziert werden, bevor die children montiert werden
+also in currentUserContext in einer Funktion (usermemo) */
