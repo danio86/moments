@@ -30,13 +30,21 @@ function PostCreateForm() {
       [event.target.name]: event.target.value,
     });
   };
+  /* erst alles was man inputten will definieren und den ursprungswert festlegen
+  dann den neuen Wert im handelevent festlegen */
 
   const handleChangeImage = (event) => {
     if (event.target.files.length) {
+        /* wenn es eine Länge gibt, wurde ein file hochgeladen */
       URL.revokeObjectURL(image);
+      /* Falls unser Benutzer beschließt, seine Bilddatei zu ändern, 
+      nachdem er eine hinzugefügt hat,
+      Wir müssen auch URL.revokeObjectURL aufrufen, 
+      um den Verweis des Browsers auf die vorherige Datei zu löschen. */
       setPostData({
         ...postData,
         image: URL.createObjectURL(event.target.files[0]),
+        /* URL is eine React-method */
       });
     }
   };
@@ -50,6 +58,7 @@ function PostCreateForm() {
           name="title"
           value={title}
           onChange={handleChange}
+          /* die neuen Werte müssen noch hier rein */
         />
       </Form.Group>
       <Form.Group>
@@ -84,6 +93,8 @@ function PostCreateForm() {
           >
             <Form.Group className="text-center">
               {image ? (
+                /* wenn es ein User-Bild gibt, render */
+                /* der rest ist style */
                 <>
                   <figure>
                     <Image className={appStyles.Image} src={image} rounded />
@@ -97,6 +108,7 @@ function PostCreateForm() {
                     </Form.Label>
                   </div>
                 </>
+                /* Falls er kein Bild hochgeladen hat... */
               ) : (
                 <Form.Label
                   className="d-flex justify-content-center"
@@ -105,6 +117,7 @@ function PostCreateForm() {
                   <Asset
                     src={Upload}
                     message="Click or tap to upload an image"
+                    /* die Asset component die message ist manuel */
                   />
                 </Form.Label>
               )}
@@ -113,6 +126,8 @@ function PostCreateForm() {
                 id="image-upload"
                 accept="image/*"
                 onChange={handleChangeImage}
+                /* das neue Bild muss auch übergeben werden, damit
+                es gerendert werden kann. Durch accept muss es ein Bild sein */
               />
             </Form.Group>
             <div className="d-md-none">{textFields}</div>

@@ -8,6 +8,7 @@ const Asset = ({ spinner, src, message }) => {
       {spinner && <Spinner animation="border" />}
       {src && <img src={src} alt={message} />}
       {message && <p className="mt-4">{message}</p>}
+      {/* alle 3 Komponenten werden nur gerendert wenn es sie gibt */}
     </div>
   );
 };
