@@ -11,28 +11,20 @@ import Avatar from "./Avatar";
 import axios from "axios";
 import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
 
-
-
 const NavBar = () => {
-    const currentUser = useCurrentUser();
-    const setCurrentUser = useSetCurrentUser();
+  const currentUser = useCurrentUser();
+  const setCurrentUser = useSetCurrentUser();
 
-    const { expanded, setExpanded, ref } = useClickOutsideToggle;
-    /* Übersetzung: Lassen Sie uns nun die Funktionalität behandeln, 
-    damit das Burger-Menü zusammenklappt, wenn wir eine seiner Optionen auswählen.
-    Zuerst werden wir eine ref-Variable instanziieren, die eine Referenz 
-    zum Burger-Symbol enthält. Wir werden den useRef-Hook aus React verwenden 
-    und importieren, da wir möchten, dass diese Referenz bestehen bleibt. */
+  const { expanded, setExpanded, ref } = useClickOutsideToggle();
 
-const handleSignOut = async () => {
+  const handleSignOut = async () => {
     try {
-        await axios.post("dj-rest-auth/logout/");
-        setCurrentUser(null);
+      await axios.post("dj-rest-auth/logout/");
+      setCurrentUser(null);
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
-    };
-    /* Wenn der User auf Sign out klicked */
+  };
 
   const addPostIcon = (
     <NavLink
@@ -43,9 +35,7 @@ const handleSignOut = async () => {
       <i className="far fa-plus-square"></i>Add post
     </NavLink>
   );
-
   const loggedInIcons = (
-    /* alle links die der user sieht wenn er einen Accopunt hat */
     <>
       <NavLink
         className={styles.NavLink}
@@ -69,7 +59,6 @@ const handleSignOut = async () => {
         to={`/profiles/${currentUser?.profile_id}`}
       >
         <Avatar src={currentUser?.profile_image} text="Profile" height={40} />
-        {/* linked zu Avatar.js wenn der User einen Avatar hat */}
       </NavLink>
     </>
   );
@@ -93,25 +82,24 @@ const handleSignOut = async () => {
   );
 
   return (
-    <Navbar expanded={expanded} className={styles.NavBar} expand="md" fixed="top">
-      {/* expanded kommt vom Hook > false (Burger ist nicht ausgefahren) */}
+    <Navbar
+      expanded={expanded}
+      className={styles.NavBar}
+      expand="md"
+      fixed="top"
+    >
       <Container>
         <NavLink to="/">
           <Navbar.Brand>
             <img src={logo} alt="logo" height="45" />
           </Navbar.Brand>
         </NavLink>
-
         {currentUser && addPostIcon}
-        {/* This way, it will only show the  addPostIcon if the 
-        currentUser exists. */}
-
         <Navbar.Toggle
-                ref={ref}
-                onClick={() => setExpanded(!expanded)}
-                /* expand to true */
-                aria-controls="basic-navbar-nav"
-                />
+          ref={ref}
+          onClick={() => setExpanded(!expanded)}
+          aria-controls="basic-navbar-nav"
+        />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto text-left">
             <NavLink
@@ -132,3 +120,23 @@ const handleSignOut = async () => {
 };
 
 export default NavBar;
+
+/*  Lassen Sie uns nun die Funktionalität behandeln, 
+    damit das Burger-Menü zusammenklappt, wenn wir eine seiner Optionen auswählen.
+    Zuerst werden wir eine ref-Variable instanziieren, die eine Referenz 
+    zum Burger-Symbol enthält. Wir werden den useRef-Hook aus React verwenden 
+    und importieren, da wir möchten, dass diese Referenz bestehen bleibt. */
+
+
+    {/* This way, it will only show the  addPostIcon if the 
+        currentUser exists. */}
+
+/* expand to true */
+
+
+      {/* expanded kommt vom Hook > false (Burger ist nicht ausgefahren) */}
+  
+  
+      /* alle links die der user sieht wenn er einen Accopunt hat */
+
+          /* Wenn der User auf Sign out klicked */
