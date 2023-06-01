@@ -1,6 +1,7 @@
 import axios from "axios";
 
 axios.defaults.baseURL = 'https://django-rest-fw.herokuapp.com/'
+
 /* zu dieser api wird gesendet */
 axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
 /* Als Nächstes setzen wir den "Content-Type"-Header auf "multipart/form-data", 
