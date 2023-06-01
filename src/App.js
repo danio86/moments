@@ -26,14 +26,20 @@ function App() {
           {/* wenn man den exacten path eingibt wird h1 gerendert */}
           <Route exact path="/" render={() => <PostsPage message="No results found. Adjust the search keyword." />} />
           
-          <Route exact path="/feed" render={() => (
+          <Route
+            exact
+            path="/feed"
+            render={() => (
               <PostsPage
                 message="No results found. Adjust the search keyword or follow a user."
                 filter={`owner__followed__owner__profile=${profile_id}&`}
               />
             )}
           />
-          <Route exact path="/liked" render={() => (
+          <Route
+            exact
+            path="/liked"
+            render={() => (
               <PostsPage
                 message="No results found. Adjust the search keyword or like a post."
                 filter={`likes__owner__profile=${profile_id}&ordering=-likes__created_at&`}
