@@ -4,6 +4,7 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { Card, Media, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
+import { axiosRes } from "../../api/axiosDefaults";
 
 const Post = (props) => {
     /* das destructurierte prop ist vom parent component
@@ -21,6 +22,7 @@ const Post = (props) => {
     image,
     updated_at,
     postPage,
+    setPosts,
   } = props;
 
   const currentUser = useCurrentUser();
@@ -30,6 +32,48 @@ const Post = (props) => {
   const is_owner = currentUser?.username === owner;
   /* And using that variable we’ll check if the owner of the post matches the currentUser’s
     username, and assign the returned boolean value to the is_owner variable. */
+
+const handleLike = async () => {
+    /* handleLike async function so that the users can like posts.
+    Inside a try-catch block, we’ll make a post request with the axiosRes instance
+    to the likes endpoint with the post id, so that the API knows which post
+    the user is trying to like. Again, we needed to auto-import axiosRes. */
+    try {
+        const { data } = await axiosRes.post("/likes/", { post: id });
+        setPosts((prevPosts) => ({
+            /* setPosts is vom Parrent(PostPage) */
+        ...prevPosts,
+        /* prevPosts wird gesreaded nach PrevPosts */
+        results: prevPosts.results.map((post) => {
+            return post.id === id
+            ? { ...post, likes_count: post.likes_count + 1, like_id: data.id }
+            : post;
+        }),
+        /* Jetzt werden wir setPosts verwenden und ihm eine Funktion mit dem Argument prevPosts übergeben.
+        Im Inneren werden wir die vorherigen Posts im Objekt ausbreiten und nur das results-Array aktualisieren.
+        Wir werden es durchlaufen und dabei eine bedingte Anweisung verwenden, um zu überprüfen, ob die Post-ID mit der ID der gelikten Post übereinstimmt. Wenn sie übereinstimmt, geben wir das Post-Objekt zurück, bei dem die Anzahl der Likes um eins erhöht ist und like_id auf die ID der Antwortdaten gesetzt ist.
+        Wenn die ID nicht übereinstimmt, geben wir einfach den Post zurück und führen keine weitere Aktion damit aus, damit unsere Schleife zum nächsten Post im results-Array von prevPosts wechseln kann. */
+        }));
+    } catch (err) {
+        console.log(err);
+    }
+    };
+
+const handleUnlike = async () => {
+    try {
+        await axiosRes.delete(`/likes/${like_id}/`);
+        setPosts((prevPosts) => ({
+        ...prevPosts,
+        results: prevPosts.results.map((post) => {
+            return post.id === id
+            ? { ...post, likes_count: post.likes_count - 1, like_id: null }
+            : post;
+        }),
+        }));
+    } catch (err) {
+        console.log(err);
+    }
+    };
 
   return (
     <Card className={styles.Post}>
@@ -75,12 +119,12 @@ const Post = (props) => {
             </OverlayTrigger>
           ) : like_id ? (
             /* checks if like-id exits, falls kann nicht nochmal geliked werden */
-            <span onClick={() => {}}>
+            <span onClick={handleUnlike}>
               <i className={`fas fa-heart ${styles.Heart}`} />
             </span>
           ) : currentUser ? (
             /* checks if user is difiniert/eingeloggt */
-            <span onClick={() => {}}>
+            <span onClick={handleLike}>
               <i className={`far fa-heart ${styles.HeartOutline}`} />
             </span>
           ) : (
