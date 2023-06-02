@@ -5,6 +5,7 @@ import { Card, Media, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
+import { MoreDropdown } from "../../components/MoreDropdown";
 
 const Post = (props) => {
     /* das destructurierte prop ist vom parent component
@@ -87,7 +88,13 @@ const handleUnlike = async () => {
           </Link>
           <div className="d-flex align-items-center">
             <span>{updated_at}</span>
-            {is_owner && postPage && "..."}
+            {is_owner && postPage && (
+              <MoreDropdown
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+              />
+              /* importierted Moredropdown von components */
+            )}
             {/* check if the currently logged in user is the owner,
             and if the postPage prop exists, if so, then we know we
             want to display the edit and delete options for our user */}
