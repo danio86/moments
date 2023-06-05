@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Media } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import { MoreDropdown } from "../../components/MoreDropdown";
+import CommentEditForm from "./CommentEditForm";
+
 import styles from "../../styles/Comment.module.css";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import { axiosRes } from "../../api/axiosDefaults";
@@ -20,6 +22,8 @@ const Comment = (props) => {
       setComments,
       /* die funktionen werden als props von postpage übergeben */
     } = props;
+
+const [showEditForm, setShowEditForm] = useState(false);
 
 const currentUser = useCurrentUser();
 /* hook muss importiert werden */
@@ -53,8 +57,8 @@ We want to remove the comment that matches  our id here. So we’ll call the fil
 loop over the previous comments’ results array.  If the id is for the comment we want to remove,  
 our filter method will not return  it into the updated results array. */
 
-  return (
-    <div>
+return (
+    <>
       <hr />
       <Media>
         <Link to={`/profiles/${profile_id}`}>
@@ -63,16 +67,20 @@ our filter method will not return  it into the updated results array. */
         <Media.Body className="align-self-center ml-2">
           <span className={styles.Owner}>{owner}</span>
           <span className={styles.Date}>{updated_at}</span>
-          <p>{content}</p>
+          {showEditForm ? (
+            <CommentEditForm />
+          ) : (
+            <p>{content}</p>
+          )}
         </Media.Body>
-        {is_owner && (
-          <MoreDropdown handleEdit={() => {}} handleDelete={handleDelete} />
+        {is_owner && !showEditForm && (
+          <MoreDropdown
+            handleEdit={() => setShowEditForm(true)}
+            handleDelete={handleDelete}
+          />
         )}
-        {/* if owner is true && (und dann) render das MoreDropdown menu/compoonent */}
-        {/* im dropdow kommt die beiden die edit und delete button rein 
-        wenn eine von beiden fertig ist kommt sie in die KLammer. Sonst bleibt sie leer*/}
       </Media>
-    </div>
+    </>
   );
 };
 
