@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Avatar from "../../components/Avatar";
 import { axiosRes } from "../../api/axiosDefaults";
 import { MoreDropdown } from "../../components/MoreDropdown";
+import { useHistory } from "react-router-dom";
 
 const Post = (props) => {
     /* das destructurierte prop ist vom parent component
@@ -33,6 +34,23 @@ const Post = (props) => {
   const is_owner = currentUser?.username === owner;
   /* And using that variable we’ll check if the owner of the post matches the currentUser’s
     username, and assign the returned boolean value to the is_owner variable. */
+
+  const history = useHistory();
+  /* immer wenn wir den user redirecten wollen */
+
+  const handleEdit = () => {
+    history.push(`/posts/${id}/edit`);
+  };
+  /* hierher wird der user directed */
+
+  const handleDelete = async () => {
+    try {
+      await axiosRes.delete(`/posts/${id}/`);
+      history.goBack();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
 const handleLike = async () => {
     /* handleLike async function so that the users can like posts.
