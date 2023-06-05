@@ -24,6 +24,7 @@ export const MoreDropdown = ({ handleEdit, handleDelete }) => {
       <Dropdown.Menu
         className="text-center"
         popperConfig={{ strategy: "fixed" }}
+        /* das brauchen wir damit das dropdown in allen browsern stabil ist */
       >
         <Dropdown.Item
           className={styles.DropdownItem}
