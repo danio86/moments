@@ -8,6 +8,8 @@ import appStyles from "../../App.module.css";
 import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import Post from "./Post";
+import Comment from "../comments/Comment";
+
 import CommentCreateForm from "../comments/CommentCreateForm";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
@@ -28,17 +30,23 @@ function PostPage() {
   useEffect(() => {
     const handleMount = async () => {
       try {
-        const [{ data: post }] = await Promise.all([
+        const [{ data: post }, { data: comments }] = await Promise.all([
           axiosReq.get(`/posts/${id}`),
+          axiosReq.get(`/comments/?post=${id}`),
         ]);
         /* der Hook macht ein request nach der data property und renamed
         to post */
-        /* Was Promise.all tut, ist, dass es ein Array von Promises akzeptiert und aufgelöst wird, wenn alle Promises aufgelöst werden, wobei ein Array von Daten zurückgegeben wird. Wenn eines der Promises im Array fehlschlägt, wird Promise.all mit einem Fehler abgelehnt.
+        /* Was Promise.all tut, ist, dass es ein Array von Promises akzeptiert 
+        und aufgelöst wird, wenn alle Promises aufgelöst werden, 
+        wobei ein Array von Daten zurückgegeben wird. 
+        Wenn eines der Promises im Array fehlschlägt, 
+        wird Promise.all mit einem Fehler abgelehnt.
         In unserem Fall sind die zurückgegebenen Daten der
         angeforderte Post. */
         setPost({ results: [post] });
         /* to update the  results array in the state to contain that post. */
-        console.log(post);
+        setComments(comments);
+        // console.log(post);
       } catch (err) {
         console.log(err);
       }
@@ -72,6 +80,22 @@ function PostPage() {
             ) : comments.results.length ? (
             "Comments"
             ) : null}
+            {comments.results.length ? (
+                /* sind comment in der array */
+                comments.results.map((comment) => (
+                <Comment key={comment.id} {...comment} 
+                /* Let’s not forget to add the key prop, set to  
+                each comment’s id. We’ll also spread the comment 
+                object so that its contents are passed as props */
+                /* wenn es comments gibt müssen hier auch die edit, delete funktionen her */
+                setPost={setPost}
+                setComments={setComments}/>
+                ))
+            ) : currentUser ? (
+                <span>No comments yet, be the first to comment!</span>
+            ) : (
+                <span>No comments... yet</span>
+            )}
         </Container>
       </Col>
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
