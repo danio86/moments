@@ -8,6 +8,8 @@ import appStyles from "../../App.module.css";
 import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import Post from "./Post";
+import CommentCreateForm from "../comments/CommentCreateForm";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
 function PostPage() {
   const { id } = useParams();
@@ -18,6 +20,10 @@ function PostPage() {
   /* wenn wir eine einzelne api abfragen bekommen wir ein Object
   bei mehreren (posts/) bekommen wir eine list. 
   So (results: []) bekommen wir immer eine list */
+
+   const currentUser = useCurrentUser();
+   const profile_image = currentUser?.profile_image;
+   const [comments, setComments] = useState({ results: [] });
 
   useEffect(() => {
     const handleMount = async () => {
@@ -54,7 +60,19 @@ function PostPage() {
         to handle our likes. */}
         {/* postPage ist ein prop von/für der tochter (post.js) und ist true
          */}
-        <Container className={appStyles.Content}>Comments</Container>
+        <Container className={appStyles.Content}>
+        {currentUser ? (
+            <CommentCreateForm
+            profile_id={currentUser.profile_id}
+            profileImage={profile_image}
+            post={id}
+            setPost={setPost}
+            setComments={setComments}
+            />
+            ) : comments.results.length ? (
+            "Comments"
+            ) : null}
+        </Container>
       </Col>
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
         Popular profiles for desktop
