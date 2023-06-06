@@ -28,22 +28,14 @@ function PostEditForm() {
   const imageInput = useRef(null);
   const history = useHistory();
   const { id } = useParams();
-  /* dieser Hook kann Infos aus einer URL herausholen */
-  /* in diesem Fall brauchen wir die ID von einem Post damit wir ihn verändern können */
 
   useEffect(() => {
-    /*to handle our API request using the id parameter we just accessed.
-    inside we’ll define our handleMount async function. */
     const handleMount = async () => {
       try {
         const { data } = await axiosReq.get(`/posts/${id}/`);
-        /* die api abfrage nach der url id wird in {data} destructuriert */
         const { title, content, image, is_owner } = data;
 
         is_owner ? setPostData({ title, content, image }) : history.push("/");
-        /* If so, the postData will be  updated with the data destructured above so that  
-        the input fields can be populated on mount */
-        /* wenn der user ist nicht ownr, ist er nicht able to edit */
       } catch (err) {
         console.log(err);
       }
@@ -51,7 +43,6 @@ function PostEditForm() {
 
     handleMount();
   }, [history, id]);
-  /* die funktion wir immer aufgerufen wenn sich die id oder die url ändert */
 
   const handleChange = (event) => {
     setPostData({
@@ -80,11 +71,9 @@ function PostEditForm() {
     if (imageInput?.current?.files[0]) {
       formData.append("image", imageInput.current.files[0]);
     }
-    /* wenn ein neues Bild gepostet wurde > append ansonsten altes Bild */
 
     try {
       await axiosReq.put(`/posts/${id}/`, formData);
-      /* put updated einen existierenden post (post criert einen neuen post) */
       history.push(`/posts/${id}`);
     } catch (err) {
       console.log(err);
