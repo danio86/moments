@@ -16,7 +16,7 @@ const Profile = (props) => {
   const is_owner = currentUser?.username === owner;
   /* if its username is the same as the  profile owner’s */
 
-  const { handleFollow } = useSetProfileData();
+  const {handleFollow, handleUnfollow} = useSetProfileData();
   /* To access that, we’ll auto-import and call 
   the useSetProfileData hook and destructure the handleFollow function. */
 
@@ -38,10 +38,10 @@ const Profile = (props) => {
           !is_owner &&
           (following_id ? (
             <Button
-              className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-              onClick={() => {}}
+            className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
+            onClick={() => handleUnfollow(profile)}
             >
-              unfollow
+            unfollow
             </Button>
           ) : (
             <Button

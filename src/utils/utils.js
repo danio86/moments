@@ -47,3 +47,15 @@ we can update the value of the same name, so we can remove data.id here. */
         // the user owns, so just return it unchanged
         profile;
   };
+
+  export const unfollowHelper = (profile, clickedProfile) => {
+    return profile.id === clickedProfile.id
+      ? {
+          ...profile,
+          followers_count: profile.followers_count - 1,
+          following_id: null,
+        }
+      : profile.is_owner
+      ? { ...profile, following_count: profile.following_count - 1 }
+      : profile;
+  }
