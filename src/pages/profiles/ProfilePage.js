@@ -21,13 +21,17 @@ import {
 import { Button, Image } from "react-bootstrap";
 
 function ProfilePage() {
-  const [hasLoaded, setHasLoaded] = useState(false);
-  const currentUser = useCurrentUser();
-  const { id } = useParams();
-  const setProfileData = useSetProfileData();
-  const { pageProfile } = useProfileData();
-  const [profile] = pageProfile.results;
-  const is_owner = currentUser?.username === profile?.owner;
+    const [hasLoaded, setHasLoaded] = useState(false);
+    const [profilePosts, setProfilePosts] = useState({ results: [] });
+  
+    const currentUser = useCurrentUser();
+    const { id } = useParams();
+  
+    const { setProfileData, handleFollow } = useSetProfileData();
+    const { pageProfile } = useProfileData();
+  
+    const [profile] = pageProfile.results;
+    const is_owner = currentUser?.username === profile?.owner;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,7 +91,8 @@ function ProfilePage() {
             ) : (
               <Button
                 className={`${btnStyles.Button} ${btnStyles.Black}`}
-                onClick={() => {}}
+                onClick={() => handleFollow(profile)}
+                /* dei funktion ist aus progildatacontext */
               >
                 follow
               </Button>
