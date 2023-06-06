@@ -16,7 +16,6 @@ import { axiosReq } from "../../api/axiosDefaults";
 import NoResults from "../../assets/no-results.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
-import ProfilePage from "../profiles/ProfilePage";
 import PopularProfiles from "../profiles/PopularProfiles";
 
 function PostsPage({ message, filter = "" }) {
@@ -70,7 +69,8 @@ so we’ll put these inside this  useEffect’s dependency array. */
   return (
     <Row className="h-100">
       <Col className="py-2 p-0 p-lg-2" lg={8}>
-        <p>Popular profiles mobile</p>
+        <PopularProfiles mobile />
+        {/* hier wird das gerendert mit mibil classe */}
         <i className={`fas fa-search ${styles.SearchIcon}`} />
         {/* kann man nicht sehen wegen unseren costom style css */}
         <Form
@@ -130,8 +130,7 @@ so we’ll put these inside this  useEffect’s dependency array. */
         )}
       </Col>
       <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
-        <p>Popular profiles for desktop?</p>
-        {/* <PopularProfiles  /> */}
+        <PopularProfiles />
       </Col>
     </Row>
   );
