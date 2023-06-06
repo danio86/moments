@@ -16,6 +16,7 @@ import { useCurrentUser } from "../../contexts/CurrentUserContext";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Asset from "../../components/Asset";
 import { fetchMoreData } from "../../utils/utils";
+import ProfilePage from "../profiles/ProfilePage";
 
 function PostPage() {
   const { id } = useParams();
@@ -83,6 +84,8 @@ function PostPage() {
       </Col>
       <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
         Popular profiles for desktop
+        {/* <ProfilePage /> */}
+        
       </Col>
     </Row>
   );

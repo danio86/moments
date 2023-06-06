@@ -10,23 +10,24 @@ import PostPage from "./pages/posts/PostPage";
 import PostsPage from "./pages/posts/PostsPage";
 import { useCurrentUser } from "./contexts/CurrentUserContext";
 import PostEditForm from "./pages/posts/PostEditForm";
+import ProfilePage from "./pages/profiles/ProfilePage";
 
 function App() {
-  const currentUser = useCurrentUser
-  /* current user value (loggedin or not) */
+  const currentUser = useCurrentUser();
   const profile_id = currentUser?.profile_id || "";
-  /* gib mir die user id oder empty string */
-
 
   return (
     <div className={styles.App}>
       <NavBar />
       <Container className={styles.Main}>
         <Switch>
-          {/* <Route exact path="/" render={() => <h1>Home page</h1>} /> */}
-          {/* wenn man den exacten path eingibt wird h1 gerendert */}
-          <Route exact path="/" render={() => <PostsPage message="No results found. Adjust the search keyword." />} />
-          
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <PostsPage message="No results found. Adjust the search keyword." />
+            )}
+          />
           <Route
             exact
             path="/feed"
@@ -47,13 +48,12 @@ function App() {
               />
             )}
           />
-
           <Route exact path="/signin" render={() => <SignInForm />} />
           <Route exact path="/signup" render={() => <SignUpForm />} />
           <Route exact path="/posts/create" render={() => <PostCreateForm />} />
           <Route exact path="/posts/:id" render={() => <PostPage />} />
-          {/* kann man testen.. posts/1 */}
           <Route exact path="/posts/:id/edit" render={() => <PostEditForm />} />
+          <Route exact path="/profiles/:id" render={() => <ProfilePage />} />
           <Route render={() => <p>Page not found!</p>} />
         </Switch>
       </Container>
