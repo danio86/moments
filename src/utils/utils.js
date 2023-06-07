@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import { axiosReq } from "../api/axiosDefaults";
 
 export const fetchMoreData = async (resource, setResource) => {
@@ -59,3 +60,35 @@ we can update the value of the same name, so we can remove data.id here. */
       ? { ...profile, following_count: profile.following_count - 1 }
       : profile;
   }
+
+
+  /* Wir können sehen, dass unser Code als nicht authentifizierter Benutzer unnötige Anfragen zur Aktualisierung des Zugriffstokens bei jeder Interaktion mit der Anwendung stellt. Lassen Sie uns unseren Code anpassen, damit ein nicht authentifizierter Benutzer keine zusätzlichen Netzwerkanfragen zur Aktualisierung des Zugriffstokens stellt.
+
+Was wir tun werden, ist: Den Auffrischungs-Token-Zeitstempel des angemeldeten Benutzers im Browser mithilfe von localStorage speichern. Anschließend überprüft unser Code, ob dieser Zeitstempel vorhanden ist, und versucht nur dann, den Zugriffstoken aufzufrischen. Wir stellen auch sicher, dass der Zeitstempel aus dem Browser entfernt wird, wenn der Auffrischungs-Token abläuft oder der Benutzer sich einfach abmeldet.
+
+npm install jwt-decode
+ */
+
+export const setTokenTimestamp = (data) => {
+    const refreshTokenTimestamp = jwtDecode(data?.refresh_token).exp;
+    localStorage.setItem("refreshTokenTimestamp", refreshTokenTimestamp);
+};
+  
+export const shouldRefreshToken = () => {
+    return !!localStorage.getItem("refreshTokenTimestamp");
+};
+
+export const removeTokenTimestamp = () => {
+    localStorage.removeItem("refreshTokenTimestamp");
+};
+
+/* Lassen Sie uns zuerst mit einer Funktion beginnen, um einen Token-Zeitstempel im Browser-Speicher zu setzen. Wir exportieren und definieren eine Funktion namens setTokenTimestamp. Sie akzeptiert das vom API bei der Anmeldung zurückgegebene Datenobjekt.
+
+Dann importieren wir die Funktion jwtDecode aus der zuvor installierten Bibliothek und verwenden sie, um den Auffrischungstoken zu decodieren. Dieses Objekt enthält ein Ablaufdatum mit dem Schlüssel exp. Wir können den Wert von exp in einer Variablen namens refreshTokenTimestamp speichern.
+
+Schließlich können wir diesen Wert mit localStorage im Browser des Benutzers speichern und den Schlüssel auf refreshTokenTimestamp setzen. */
+
+
+/* Jetzt, da wir alle unsere Hilfsfunktionen geschrieben haben, können wir zu unseren Komponenten zurückkehren und sie dort aufrufen, wo sie benötigt werden! Wir beginnen mit dem SignInForm, da wir unseren Zeitstempel-Wert setzen möchten, wenn sich ein Benutzer in unserer Anwendung anmeldet.
+In der handleSubmit-Funktion importieren wir die setTokenTimestamp-Funktion und rufen sie mit dem vom API bei erfolgreicher Anmeldung zurückgegebenen Datenobjekt auf.
+ */

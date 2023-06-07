@@ -49,3 +49,4 @@ Fehler, der uns mitteilt, dass findDOMNode in StrictMode veraltet ist.
 Da StrictMode nur für Entwicklungszwecke gedacht ist und wir uns auf die endgültige 
 Bereitstellung vorbereiten, können wir es entfernen. */
 /* StrictMode kann einfach entfernt werden */
+

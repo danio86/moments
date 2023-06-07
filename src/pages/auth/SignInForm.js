@@ -16,6 +16,7 @@ import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
+import { setTokenTimestamp } from "../../utils/utils";
 
 function SignInForm() {
   const setCurrentUser = useSetCurrentUser();
@@ -37,6 +38,8 @@ function SignInForm() {
     try {
       const { data } = await axios.post("/dj-rest-auth/login/", signInData);
       setCurrentUser(data.user);
+      setTokenTimestamp(data);
+      /* setTokenTimestamp-Funktion und rufen sie mit dem vom API bei erfolgreicher Anmeldung zurückgegebenen Datenobjekt auf. Diese Funktion sollte das Ablaufdatum aus dem Zugriffstoken extrahieren und es im Browser des Benutzers im Local Storage speichern. */
       history.goBack();
     } catch (err) {
       setErrors(err.response?.data);
