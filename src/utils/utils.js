@@ -73,10 +73,12 @@ export const setTokenTimestamp = (data) => {
     const refreshTokenTimestamp = jwtDecode(data?.refresh_token).exp;
     localStorage.setItem("refreshTokenTimestamp", refreshTokenTimestamp);
 };
+/* //   Jetzt haben wir einen aktuellen Zeitstempel */
   
 export const shouldRefreshToken = () => {
     return !!localStorage.getItem("refreshTokenTimestamp");
 };
+/* Die nächste Hilfsfunktion, die wir erstellt haben, ist die Funktion, die uns mitteilt, ob ein Ablaufdatum im Local Storage des Benutzers vorhanden ist. Dadurch können wir entscheiden, ob wir den Code zur Aktualisierung des Tokens ausführen möchten oder nicht. */
 
 export const removeTokenTimestamp = () => {
     localStorage.removeItem("refreshTokenTimestamp");

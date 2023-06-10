@@ -40,6 +40,7 @@ function SignInForm() {
       setCurrentUser(data.user);
       setTokenTimestamp(data);
       /* setTokenTimestamp-Funktion und rufen sie mit dem vom API bei erfolgreicher Anmeldung zurückgegebenen Datenobjekt auf. Diese Funktion sollte das Ablaufdatum aus dem Zugriffstoken extrahieren und es im Browser des Benutzers im Local Storage speichern. */
+    //   Jetzt haben wir einen aktuellen Zeitstempel
       history.goBack();
     } catch (err) {
       setErrors(err.response?.data);
