@@ -48,7 +48,7 @@ const Post = (props) => {
       await axiosRes.delete(`/posts/${id}/`);
       history.goBack();
     } catch (err) {
-      console.log(err);
+    //   console.log(err);
     }
   };
 
@@ -74,7 +74,7 @@ const handleLike = async () => {
         Wenn die ID nicht übereinstimmt, geben wir einfach den Post zurück und führen keine weitere Aktion damit aus, damit unsere Schleife zum nächsten Post im results-Array von prevPosts wechseln kann. */
         }));
     } catch (err) {
-        console.log(err);
+        // console.log(err);
     }
     };
 
@@ -90,7 +90,7 @@ const handleUnlike = async () => {
         }),
         }));
     } catch (err) {
-        console.log(err);
+        // console.log(err);
     }
     };
 

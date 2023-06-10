@@ -78,7 +78,7 @@ function PostCreateForm() {
       /* der User wird nun hierher geleitet. 
       Wir haben also die url selbst definiert */
     } catch (err) {
-      console.log(err);
+    //   console.log(err);
       if (err.response?.status !== 401) {
         setErrors(err.response?.data);
         /* nur wenn es kein 401 ist, wenn es einer ist

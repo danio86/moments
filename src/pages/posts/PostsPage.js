@@ -17,6 +17,7 @@ import NoResults from "../../assets/no-results.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
 import PopularProfiles from "../profiles/PopularProfiles";
+import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
 
 function PostsPage({ message, filter = "" }) {
@@ -36,6 +37,8 @@ flicked between home, feed and liked pages. */
   /* To handle our query value, we’ll use the useState  
 hook again to destructure our query  variable and setQuery function.  */
 
+const currentUser = useCurrentUser();
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -48,7 +51,7 @@ just posts by the profiles our user has  followed, or just the posts they have l
         setHasLoaded(true);
         
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     };
     /* das fetched die posts je nach filter oder rendert das loadin weel */
@@ -62,7 +65,8 @@ just posts by the profiles our user has  followed, or just the posts they have l
         clearTimeout(timer);
       };
 
-  }, [filter, query, pathname]);
+
+  }, [filter, query, pathname, currentUser]);
   /* Well, we should run this effect every  time the filter or pathname change,  
 so we’ll put these inside this  useEffect’s dependency array. */
 /* oder wenn der seachtext geändert wird */
